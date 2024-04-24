@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/cart"
+        android:icon="@drawable/shopping_cart_24"
+        android:title="@string/cart"
+        android:orderInCategory="0"
+        android:contentDescription="@string/cart"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/search_btn"
+        android:icon="@drawable/search_24"
+        android:contentDescription="@string/search"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="1"
+        android:title="@string/search" />
+
+
+</menu>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="back">#FFffff</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="inv">#000</color>
+    <color name="inv2inv">#000</color>
+    <color name="oninv">#fff</color>
+    <color name="pressed">#8082B1FF</color>
+    <color name="shimmer">#C2C2C2</color>
+    <color name="click">#26000000</color>
+    <color name="text">#B3000000</color>
+</resources>

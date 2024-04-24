@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="inv">#FFF</color>
+    <color name="back">#000000</color>
+    <color name="pressed">#991A237E</color>
+    <color name="inv2inv">#fff</color>
+    <color name="oninv">?attr/colorOnSurface</color>
+    <color name="click">#26FFFFFF</color>
+    <color name="text">#B3FFFFFF</color>
+</resources>

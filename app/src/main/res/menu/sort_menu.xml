@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/date_sort"
+        android:title="@string/date_sort" />
+    <item android:id="@+id/date_sort_2"
+        android:title="@string/date_sort_2" />
+    <item android:id="@+id/rating_sort"
+        android:title="@string/rating_sort" />
+    <item android:id="@+id/popularity_sort_2"
+        android:title="@string/popularity_sort_2" />
+    <item android:id="@+id/price_sort"
+        android:title="@string/price_sort" />
+    <item android:id="@+id/price_sort_2"
+        android:title="@string/price_sort_2" />
+    <item android:id="@+id/title_sort"
+        android:title="@string/title_sort" />
+    <item android:id="@+id/title_sort_2"
+        android:title="@string/title_sort_2" />
+</menu>

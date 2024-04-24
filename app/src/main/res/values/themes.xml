@@ -1,0 +1,84 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.EBhoot" parent="Theme.Material3.DynamicColors.Light">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+
+<!--        <item name="colorPrimary">@color/material_dynamic_primary40</item>-->
+<!--        <item name="colorOnPrimary">@color/material_dynamic_primary100</item>-->
+<!--        <item name="colorPrimaryContainer">@color/material_dynamic_primary90</item>-->
+<!--        <item name="colorOnPrimaryContainer">@color/material_dynamic_primary10</item>-->
+
+
+<!--        <item name="colorSecondary">@color/material_dynamic_secondary40</item>-->
+<!--        <item name="colorOnSecondary">@color/material_dynamic_secondary100</item>-->
+<!--        <item name="colorSecondaryContainer">@color/material_dynamic_secondary90</item>-->
+<!--        <item name="colorOnSecondaryContainer">@color/material_dynamic_secondary10</item>-->
+
+
+<!--        <item name="colorTertiary">@color/material_dynamic_tertiary40</item>-->
+<!--        <item name="colorOnTertiary">@color/material_dynamic_tertiary100</item>-->
+<!--        <item name="colorTertiaryContainer">@color/material_dynamic_tertiary90</item>-->
+<!--        <item name="colorOnTertiaryContainer">@color/material_dynamic_tertiary10</item>-->
+
+<!--        <item name="colorSurface">@color/material_dynamic_neutral99</item>-->
+<!--        <item name="colorOnSurface">@color/material_dynamic_neutral10</item>-->
+<!--        <item name="colorSurfaceVariant">@color/material_dynamic_neutral_variant90</item>-->
+<!--        <item name="colorOnSurfaceVariant">@color/material_dynamic_neutral_variant30</item>-->
+
+<!--        <item name="colorSurfaceContainerHighest">@color/material_dynamic_neutral90</item>-->
+<!--        <item name="colorSurfaceContainerHigh">@color/material_dynamic_neutral90</item>-->
+<!--        <item name="colorSurfaceContainer">@color/material_dynamic_neutral95</item>-->
+<!--        <item name="colorSurfaceContainerLow">@color/material_dynamic_neutral95</item>-->
+<!--        <item name="colorSurfaceContainerLowest">@color/material_dynamic_neutral100</item>-->
+
+<!--        <item name="colorSurfaceInverse">@color/material_dynamic_neutral20</item>-->
+<!--        <item name="colorOnSurfaceInverse">@color/material_dynamic_neutral95</item>-->
+
+<!--        <item name="colorOutline">@color/material_dynamic_neutral_variant50</item>-->
+<!--        <item name="colorOutlineVariant">@color/material_dynamic_neutral_variant80</item>-->
+
+
+<!--        <item name="colorPrimaryInverse">@color/material_dynamic_primary80</item>-->
+<!--        <item name="colorPrimaryFixed">@color/material_dynamic_primary90</item>-->
+<!--        <item name="colorOnPrimaryFixed">@color/material_dynamic_primary10</item>-->
+<!--        <item name="colorPrimaryFixedDim">@color/material_dynamic_primary80</item>-->
+<!--        <item name="colorOnPrimaryFixedVariant">@color/material_dynamic_primary30</item>-->
+
+<!--        <item name="colorSecondaryFixed">@color/material_dynamic_secondary90</item>-->
+<!--        <item name="colorOnSecondaryFixed">@color/material_dynamic_secondary10</item>-->
+<!--        <item name="colorSecondaryFixedDim">@color/material_dynamic_secondary80</item>-->
+<!--        <item name="colorOnSecondaryFixedVariant">@color/material_dynamic_secondary30</item>-->
+
+
+
+<!--        <item name="colorTertiaryFixed">@color/material_dynamic_tertiary90</item>-->
+<!--        <item name="colorOnTertiaryFixed">@color/material_dynamic_tertiary10</item>-->
+<!--        <item name="colorTertiaryFixedDim">@color/material_dynamic_tertiary80</item>-->
+<!--        <item name="colorOnTertiaryFixedVariant">@color/material_dynamic_tertiary30</item>-->
+
+
+<!--        <item name="android:colorBackground">@color/material_dynamic_neutral100</item>-->
+<!--        <item name="colorOnBackground">@color/material_dynamic_neutral10</item>-->
+
+<!--        <item name="colorSurfaceDim">@color/material_dynamic_neutral80</item>-->
+<!--        <item name="colorSurfaceBright">@color/material_dynamic_neutral100</item>-->
+
+    </style>
+
+    <style name="Theme.EBhoot" parent="Base.Theme.EBhoot" />
+    <style name="Theme.EBhoot.Starting" parent="Theme.SplashScreen">
+        <!-- Set the splash screen background to black -->
+        <item name="windowSplashScreenBackground">?attr/colorSurface</item>
+        <!-- Use windowSplashScreenAnimatedIcon to add a drawable or an animated
+             drawable. -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_icon</item>
+        <item name="windowSplashScreenAnimationDuration">500</item>
+        <!-- Set the theme of the Activity that follows your splash screen. -->
+        <item name="postSplashScreenTheme">@style/Theme.EBhoot</item>
+    </style>
+</resources>

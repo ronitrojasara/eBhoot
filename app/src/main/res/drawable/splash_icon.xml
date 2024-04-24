@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector android:drawable="@drawable/bhoot_1_copy__3_" xmlns:android="http://schemas.android.com/apk/res/android">
+
+<!--    <target-->
+<!--        android:animation="@animator/logo_animator"-->
+<!--        android:name="anim2"/>-->
+    <target
+    android:animation="@animator/logo_animator"
+    android:name="anim"/>
+    <target
+        android:animation="@animator/logo_animator_2"
+        android:name="animp"/>
+
+</animated-vector>
