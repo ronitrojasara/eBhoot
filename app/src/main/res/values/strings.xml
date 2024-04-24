@@ -76,5 +76,6 @@
     <string name="products">Products</string>
     <string name="rs">Rs.</string>
     <string name="price_2">177</string>
+    <string name="description">Description</string>
 
 </resources>

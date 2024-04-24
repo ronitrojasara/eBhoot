@@ -1,33 +1,26 @@
 package in.ebhoot.android.page;
 
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
-import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.AnticipateInterpolator;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.Interpolator;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.OvershootInterpolator;
-import android.view.animation.TranslateAnimation;
-import android.widget.HorizontalScrollView;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.splashscreen.SplashScreen;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 
 import in.ebhoot.android.R;
 import in.ebhoot.android.data.Product;
+import in.ebhoot.android.data.ProductsManager;
 
 public class ProductPage extends AppCompatActivity {
 
@@ -72,20 +65,7 @@ public class ProductPage extends AppCompatActivity {
         TextView textView3 = findViewById(R.id.name_top);
         textView2.setText(name);
         textView3.setText("ID-"+id+" | "+name);
-        textView3.measure(0, 0);
-        final int textWidth = textView3.getMeasuredWidth();
-        HorizontalScrollView  horizontalScrollView = findViewById(R.id.scroll);
-        horizontalScrollView.post(() -> {
-            final int scrollViewWidth = horizontalScrollView.getWidth();
 
-            // Create an ObjectAnimator to animate the scroll
-            ObjectAnimator animator = ObjectAnimator.ofInt(horizontalScrollView, "scrollX", 0, 50);
-            animator.setDuration(1000); // Adjust the duration as needed
-            animator.setRepeatCount(1);
-            animator.setInterpolator(new AnticipateInterpolator());
-            animator.setRepeatMode(ValueAnimator.REVERSE);
-            animator.start();
-        });
         TextView textView = findViewById(R.id.price);
         TextView textView0 = findViewById(R.id.sale);
         TextView textView1 = findViewById(R.id.gst);
@@ -114,6 +94,23 @@ public class ProductPage extends AppCompatActivity {
         }else{
             textView1.setText(" (₹"+price +" + ₹"+ formattedGst +" GST)");
         }
+
+        new ProductsManager(this, new ProductsManager.OnTaskCompleted() {
+            @Override
+            public void onTaskCompleted(JsonArray result) {
+                if (result != null) {
+                    try {
+                        JsonObject jsonObject = result.get(0).getAsJsonObject();
+                        String htmlString = jsonObject.get("description").getAsString();
+                        Log.d("hello", htmlString);
+                        WebView webView = findViewById(R.id.description);
+                        webView.loadData(htmlString, "text/html", "UTF-8");
+                    } catch (JsonParseException | IndexOutOfBoundsException e) {
+                        Log.e("TAG", "Error parsing JSON" + result + "" + result.size(), e);
+                    }
+                }
+            }
+        }).fetchProduct(id);
 
     }
 

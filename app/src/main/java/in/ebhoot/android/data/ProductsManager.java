@@ -6,12 +6,7 @@ import android.util.Log;
 
 import com.google.gson.JsonArray;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
 import in.ebhoot.android.R;
-import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import retrofit2.Call;
@@ -68,6 +63,10 @@ public class ProductsManager {
         fetchProducts(call);
     }
 
+    public void fetchProduct(int Id) {
+        Call<JsonArray> call = service.getProductById(Id);
+        fetchProducts(call);
+    }
     public void fetchOnSaleProducts(int page) {
         Call<JsonArray> call = service.getSaleProducts(true,page,"publish");
         fetchProducts(call);
