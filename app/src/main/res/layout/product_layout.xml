@@ -13,7 +13,7 @@
             android:id="@+id/close"
             android:layout_height="wrap_content"
             style="@style/Widget.Material3.Button.IconButton"
-            app:icon="@drawable/baseline_close_24"
+            app:icon="@drawable/baseline_arrow_back_ios_24"
             app:iconTint="?colorControlNormal"/>
 <HorizontalScrollView
     android:id="@+id/scroll"

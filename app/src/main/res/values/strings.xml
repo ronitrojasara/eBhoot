@@ -26,12 +26,6 @@
     <string name="set_pass">A link to set a new password will be sent to your email address.</string>
     <string name="privacy_register">Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our privacy policy.</string>
     <string name="back_to_login">Return to Login</string>
-    <string name="consumer_key">ck_771372bfbe9e113110977205b03f66fc41850dce</string>
-    <string name="consumer_secret">cs_be7ea351942a074cd23073e0af896d3517511542</string>
-    <string name="consumer_key_r">ck_0af557bf3914ead4b5c439d3e1b79cf5ce4b894e</string>
-    <string name="consumer_secret_r">cs_7809f076e009feafb63b4a7b77c7a634dc419261</string>
-<!--    <string name="consumer_key_r">ck_12be117f09542d79dc2cf688481e8b3004cba243</string>-->
-<!--    <string name="consumer_secret_r">cs_baa5ba2b8342d210437657f2a757b059319797ee</string>-->
 
     <string name="settings">Settings</string>
     <string name="track_your_order">Track Orders</string>
@@ -77,5 +71,6 @@
     <string name="rs">Rs.</string>
     <string name="price_2">177</string>
     <string name="description">Description</string>
+    <string name="add_to_cart">Add to Cart</string>
 
 </resources>
