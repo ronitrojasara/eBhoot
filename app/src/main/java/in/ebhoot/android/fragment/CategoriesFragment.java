@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.OnBackPressedDispatcher;
@@ -32,12 +33,13 @@ import java.util.function.Consumer;
 import in.ebhoot.android.R;
 import in.ebhoot.android.data.CategoriesManager;
 import in.ebhoot.android.data.Category;
+import in.ebhoot.android.data.NetworkUtils;
 import in.ebhoot.android.ui.CategoryAdapter;
 
 public class CategoriesFragment extends Fragment {
     private List<Category> categoryList;
     private CategoryAdapter categoryAdapter;
-
+    RecyclerView recyclerView;
 
     public CategoriesFragment() {
         // Required empty public constructor
@@ -68,10 +70,83 @@ public class CategoriesFragment extends Fragment {
         });
 
 
-        RecyclerView recyclerView = view.findViewById(R.id.sub_categories);
+        recyclerView = view.findViewById(R.id.sub_categories);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         categoryList = new ArrayList<>();
+
+        if (NetworkUtils.isNetworkConnected(getContext())) {
+            // Network is available, proceed with Retrofit request
+            // Make Retrofit API call here
+            retry();
+        } else {
+            RelativeLayout relativeLayout = view.findViewById(R.id.error_nic);
+            relativeLayout.setVisibility(View.VISIBLE);
+            MaterialButton materialButton = relativeLayout.findViewById(R.id.rty);
+            materialButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (NetworkUtils.isNetworkConnected(getContext())) {
+                        // Network is available, proceed with Retrofit request
+                        // Make Retrofit API call here
+                        relativeLayout.setVisibility(View.GONE);
+                        retry();
+                    }
+
+                }
+            });
+            // Network is not available, show a message or take appropriate action
+            NetworkUtils.showNetworkMessage(getContext(), false);
+        }
+
+        CoordinatorLayout coordinatorLayout = view.findViewById(R.id.layout_cate);
+        MaterialButton materialButton = view.findViewById(R.id.material_button);
+        MaterialToolbar materialToolbar = view.findViewById(R.id.topAppBar);
+        SearchBar searchBar = view.findViewById(R.id.search_bar);
+        float y = materialToolbar.getY();
+        searchView.addTransitionListener(
+                (search, previousState, newState) -> {
+                    if (newState == SearchView.TransitionState.SHOWN) {
+                        // Handle search view opened.
+                        bottomNavigationView.setVisibility(View.INVISIBLE);
+                        coordinatorLayout.setFitsSystemWindows(false);
+
+
+                    } else {
+                        coordinatorLayout.setFitsSystemWindows(true);
+
+                        bottomNavigationView.setVisibility(View.VISIBLE);
+                    }
+                });
+
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                // Calculate the total scroll range
+                int scrollRange = appBarLayout.getTotalScrollRange();
+
+                // Calculate the scroll percentage
+                float percentage = (float) Math.abs(verticalOffset) / (float) scrollRange;
+
+                materialToolbar.setTranslationY(percentage * 200);
+                if (percentage == 1) {
+
+                    materialButton.setVisibility(View.INVISIBLE);
+                    searchBar.setVisibility(View.INVISIBLE);
+                } else if (percentage == 0) {
+
+
+                } else {
+
+                    materialButton.setVisibility(View.VISIBLE);
+                    searchBar.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        return view;
+    }
+
+    private void retry() {
 
         new CategoriesManager(requireContext(), new CategoriesManager.OnTaskCompleted() {
             @Override
@@ -119,19 +194,19 @@ public class CategoriesFragment extends Fragment {
                                 categories.add(category);
                                 if (category.getSubcategories()!=null){
                                     category.getSubcategories().forEach(new Consumer<Category>() {
-                                       @Override
-                                       public void accept(Category category) {
-                                           categories.add(category);
-                                           if (category.getSubcategories()!=null){
-                                               category.getSubcategories().forEach(new Consumer<Category>() {
-                                                   @Override
-                                                   public void accept(Category category) {
-                                                       categories.add(category);
-                                                   }
-                                               });
-                                           }
-                                       }
-                                   });
+                                        @Override
+                                        public void accept(Category category) {
+                                            categories.add(category);
+                                            if (category.getSubcategories() != null) {
+                                                category.getSubcategories().forEach(new Consumer<Category>() {
+                                                    @Override
+                                                    public void accept(Category category) {
+                                                        categories.add(category);
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    });
                                 }
                             }
 //                            if (PcategoryList.contains(category)){
@@ -162,52 +237,7 @@ public class CategoriesFragment extends Fragment {
                 }
             }
         }).fetchCategories();
-
-        CoordinatorLayout coordinatorLayout = view.findViewById(R.id.layout_cate);
-        MaterialButton materialButton = view.findViewById(R.id.material_button);
-        MaterialToolbar materialToolbar = view.findViewById(R.id.topAppBar);
-        SearchBar searchBar = view.findViewById(R.id.search_bar);
-        float y = materialToolbar.getY();
-        searchView.addTransitionListener(
-                (search, previousState, newState) -> {
-                    if (newState == SearchView.TransitionState.SHOWN) {
-                        // Handle search view opened.
-                        bottomNavigationView.setVisibility(View.INVISIBLE);
-                        coordinatorLayout.setFitsSystemWindows(false);
-
-
-                    }else{
-                        coordinatorLayout.setFitsSystemWindows(true);
-
-                        bottomNavigationView.setVisibility(View.VISIBLE);
-                    }
-                });
-
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                // Calculate the total scroll range
-                int scrollRange = appBarLayout.getTotalScrollRange();
-
-                // Calculate the scroll percentage
-                float percentage = (float) Math.abs(verticalOffset) / (float) scrollRange;
-
-                materialToolbar.setTranslationY(percentage*200);
-                    if (percentage == 1) {
-
-                        materialButton.setVisibility(View.INVISIBLE);
-                        searchBar.setVisibility(View.INVISIBLE);
-                } else if (percentage == 0){
-
-
-                    }else{
-
-                        materialButton.setVisibility(View.VISIBLE);
-                        searchBar.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-        return view;
     }
+
 
 }

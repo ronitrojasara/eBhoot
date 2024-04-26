@@ -1,11 +1,5 @@
 package in.ebhoot.android;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.splashscreen.SplashScreen;
-import androidx.core.splashscreen.SplashScreenViewProvider;
-import androidx.fragment.app.Fragment;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
@@ -15,6 +9,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.splashscreen.SplashScreen;
+import androidx.core.splashscreen.SplashScreenViewProvider;
+import androidx.fragment.app.Fragment;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
@@ -23,15 +23,12 @@ import in.ebhoot.android.auth.SessionManager;
 import in.ebhoot.android.auth.TokenManager;
 import in.ebhoot.android.fragment.CategoriesFragment;
 import in.ebhoot.android.fragment.HomeFragment;
-import in.ebhoot.android.fragment.MoreFragment;
 import in.ebhoot.android.fragment.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
     Fragment activeFragment;
     HomeFragment myFragment = new HomeFragment();
     CategoriesFragment categoriesFragment = new CategoriesFragment();
-
-    MoreFragment moreFragment = new MoreFragment();
     ProfileFragment profileFragment = new ProfileFragment();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +97,6 @@ new Handler().postDelayed(new Runnable() {
         myFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("HOME");
         categoriesFragment = (CategoriesFragment) getSupportFragmentManager().findFragmentByTag("CATE");
         profileFragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag("PRO");
-        moreFragment = (MoreFragment) getSupportFragmentManager().findFragmentByTag("MORE");
 
         if (myFragment == null) {
             // If the fragment does not exist, create it and add it to the container
@@ -123,12 +119,6 @@ new Handler().postDelayed(new Runnable() {
                     .add(R.id.fragment_container, profileFragment,"PRO")
                     .hide(profileFragment).commit();
         }
-        if (moreFragment == null){
-            moreFragment = new MoreFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, moreFragment,"MORE")
-                    .hide(moreFragment).commit();
-        }
 
 
 //        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, myFragment,"HOME").commit();
@@ -147,12 +137,10 @@ new Handler().postDelayed(new Runnable() {
                     case "Categories":
                         selectedFragment = categoriesFragment;
                         break;
-                    case "Profile":
+                    case "Dashboard":
                         selectedFragment = profileFragment;
 
                         break;
-                    case "More":
-                        selectedFragment = moreFragment;
                 }
                 if (
                         activeFragment==null
@@ -165,10 +153,6 @@ new Handler().postDelayed(new Runnable() {
 
                     if (activeFragment!=myFragment){
                         getSupportFragmentManager().beginTransaction().hide(myFragment).commit();}
-
-                    if (activeFragment!=moreFragment){
-                        getSupportFragmentManager().beginTransaction().hide(moreFragment).commit();
-                    }
 
                     if (profileFragment!=activeFragment){
                         getSupportFragmentManager().beginTransaction().hide(profileFragment).commit();

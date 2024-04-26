@@ -28,10 +28,11 @@ import java.util.function.Consumer;
 
 import in.ebhoot.android.R;
 import in.ebhoot.android.data.Category;
-import in.ebhoot.android.ui.CategoryAdapter;
+import in.ebhoot.android.data.NetworkUtils;
 import in.ebhoot.android.data.Product;
-import in.ebhoot.android.ui.ProductsAdapter;
 import in.ebhoot.android.data.ProductsManager;
+import in.ebhoot.android.ui.CategoryAdapter;
+import in.ebhoot.android.ui.ProductsAdapter;
 
 public class CategoryPage extends AppCompatActivity {
     final int[] aj = {0};
@@ -131,7 +132,15 @@ public class CategoryPage extends AppCompatActivity {
                             }
                             productList.clear();
                             productsAdapter.notifyDataSetChanged();
-                            loadMoreItems(category.getId(),orderBy,order,++aj[0]);
+                            if (NetworkUtils.isNetworkConnected(getApplicationContext())) {
+                                // Network is available, proceed with Retrofit request
+                                // Make Retrofit API call here
+                                loadMoreItems(category.getId(), orderBy, order, ++aj[0]);
+                            } else {
+                                // Network is not available, show a message or take appropriate action
+                                NetworkUtils.showNetworkMessage(getApplicationContext(), false);
+                            }
+
                             sort.setText(item.getTitle());
                             return true;
                         }
@@ -146,13 +155,30 @@ public class CategoryPage extends AppCompatActivity {
         RecyclerView recyclerView1 = findViewById(R.id.recycler_view_products_cate);
         recyclerView1.setLayoutManager(new GridLayoutManager(this,2));
         recyclerView1.setAdapter(productsAdapter);
-        loadMoreItems(category.getId(),orderBy,order,++aj[0]);
+        if (NetworkUtils.isNetworkConnected(getApplicationContext())) {
+            // Network is available, proceed with Retrofit request
+            // Make Retrofit API call here
+            loadMoreItems(category.getId(), orderBy, order, ++aj[0]);
+
+        } else {
+            // Network is not available, show a message or take appropriate action
+            NetworkUtils.showNetworkMessage(getApplicationContext(), false);
+        }
+
         ScrollView scrollView = findViewById(R.id.scroll);
         scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if ( !scrollView.canScrollVertically(1)&& !Loading){
-                    loadMoreItems(category.getId(),orderBy,order,++aj[0]);
+                    if (NetworkUtils.isNetworkConnected(getApplicationContext())) {
+                        // Network is available, proceed with Retrofit request
+                        // Make Retrofit API call here
+                        loadMoreItems(category.getId(), orderBy, order, ++aj[0]);
+                    } else {
+                        // Network is not available, show a message or take appropriate action
+                        NetworkUtils.showNetworkMessage(getApplicationContext(), false);
+                    }
+
                 }
 
             }

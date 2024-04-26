@@ -1,5 +1,13 @@
 package in.ebhoot.android.fragment;
+
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.OnBackPressedDispatcher;
@@ -10,14 +18,6 @@ import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -32,9 +32,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import in.ebhoot.android.R;
+import in.ebhoot.android.data.NetworkUtils;
 import in.ebhoot.android.data.Product;
-import in.ebhoot.android.ui.ProductsAdapter;
 import in.ebhoot.android.data.ProductsManager;
+import in.ebhoot.android.ui.ProductsAdapter;
 
 public class HomeFragment extends Fragment {
 
@@ -93,7 +94,15 @@ public class HomeFragment extends Fragment {
 
         productList = new ArrayList<>();
 //        loadMoreItems(view);
-        loadMoreItems(view,orderBy,order,++aj[0]);
+        if (NetworkUtils.isNetworkConnected(getContext())) {
+            // Network is available, proceed with Retrofit request
+            // Make Retrofit API call here
+            loadMoreItems(view, orderBy, order, ++aj[0]);
+        } else {
+            // Network is not available, show a message or take appropriate action
+            NetworkUtils.showNetworkMessage(getContext(), false);
+        }
+
         NestedScrollView nestedScrollView = view.findViewById(R.id.nest);
         final int[] s = {0};
 
@@ -141,7 +150,16 @@ public class HomeFragment extends Fragment {
 
                     if (!Loading && !nestedScrollView.canScrollVertically(1)) {
                         // End has been reached, load more items
-                        loadMoreItems(view,orderBy,order,++aj[0]);
+                        if (NetworkUtils.isNetworkConnected(getContext())) {
+                            // Network is available, proceed with Retrofit request
+                            // Make Retrofit API call here
+                            loadMoreItems(view, orderBy, order, ++aj[0]);
+
+                        } else {
+                            // Network is not available, show a message or take appropriate action
+                            NetworkUtils.showNetworkMessage(getContext(), false);
+                        }
+
                     }
                     if (!nestedScrollView.canScrollVertically(-1) && fabScrollToTop.getVisibility() == View.VISIBLE){
                         fabScrollToTop.hide();
@@ -217,7 +235,15 @@ public class HomeFragment extends Fragment {
                         }
                         productList.clear();
                         adapter.notifyDataSetChanged();
-                        loadMoreItems(view,orderBy,order,++aj[0]);
+                        if (NetworkUtils.isNetworkConnected(getContext())) {
+                            // Network is available, proceed with Retrofit request
+                            // Make Retrofit API call here
+                            loadMoreItems(view, orderBy, order, ++aj[0]);
+                        } else {
+                            // Network is not available, show a message or take appropriate action
+                            NetworkUtils.showNetworkMessage(getContext(), false);
+                        }
+
                         sort.setText(item.getTitle());
                         return true;
                     }

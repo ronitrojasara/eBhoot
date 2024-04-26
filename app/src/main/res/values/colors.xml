@@ -6,7 +6,7 @@
     <color name="inv">#000</color>
     <color name="inv2inv">#000</color>
     <color name="oninv">#fff</color>
-    <color name="pressed">#8082B1FF</color>
+    <color name="pressed">@color/md_theme_primaryContainer</color>
     <color name="shimmer">#C2C2C2</color>
     <color name="click">#26000000</color>
     <color name="text">#B3000000</color>

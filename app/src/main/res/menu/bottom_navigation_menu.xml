@@ -15,12 +15,6 @@
         <item
             android:id="@+id/item_3"
             android:enabled="true"
-            android:icon="@drawable/person_24"
-            android:title="@string/profile"/>
-
-        <item
-            android:id="@+id/item_5"
-            android:enabled="true"
-            android:icon="@drawable/steppers_24"
-            android:title="@string/more"/>
+            android:icon="@drawable/baseline_dashboard_24"
+            android:title="@string/dashboard" />
 </menu>
