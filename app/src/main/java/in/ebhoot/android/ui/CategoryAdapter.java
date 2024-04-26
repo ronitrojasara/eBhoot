@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import in.ebhoot.android.page.CategoryPage;
 import in.ebhoot.android.R;
 import in.ebhoot.android.data.Category;
+import in.ebhoot.android.page.CategoryPage;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
 
@@ -60,15 +60,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             for (int i = 0; i < getIndentationLevel(category); i++) {
                 indentation.append("      "); // You can adjust the number of spaces for indentation as needed
             }
-            if (indentation.toString().isEmpty()){
-                categoryName.setTextColor(categoryName.getResources().getColor(R.color.inv,null));
+            if (indentation.toString().isEmpty()) {
+                categoryName.setTextColor(categoryName.getResources().getColor(R.color.inv, null));
                 categoryName.setTextSize(17);
             }
-            categoryName.setText(indentation.toString() + category.getName()+" ("+category.getCount()+")");
+            categoryName.setText(indentation.toString() + category.getName() + " (" + category.getCount() + ")");
             categoryName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    v.getContext().startActivity(new Intent(v.getContext(),CategoryPage.class).putExtra("category",category));
+                    v.getContext().startActivity(new Intent(v.getContext(), CategoryPage.class).putExtra("category", category));
                     activity.overridePendingTransition(android.R.anim.slide_in_left, 0);
 
                 }
@@ -80,8 +80,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             int level = 0;
             Category parent = category;
             while (parent.getParentId() != 0) {
-                    level++;
-                    parent = getParentCategory(parent.getParentId());
+                level++;
+                parent = getParentCategory(parent.getParentId());
             }
             return level;
         }

@@ -30,51 +30,52 @@ public class MainActivity extends AppCompatActivity {
     HomeFragment myFragment = new HomeFragment();
     CategoriesFragment categoriesFragment = new CategoriesFragment();
     ProfileFragment profileFragment = new ProfileFragment();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
-        splashScreen.setKeepOnScreenCondition( () -> true);
+        splashScreen.setKeepOnScreenCondition(() -> true);
         splashScreen.setOnExitAnimationListener(new SplashScreen.OnExitAnimationListener() {
 
-                    public void onSplashScreenExit(@NonNull SplashScreenViewProvider splashScreenViewProvider) {
-                        ObjectAnimator zoomX = ObjectAnimator.ofFloat(splashScreenViewProvider.getIconView(),
-                                View.SCALE_X,
-                                1.0f,
-                                0.0f);
-                        zoomX.setInterpolator(new OvershootInterpolator());
-                        zoomX.setDuration(250L);
-                        zoomX.addListener(new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                super.onAnimationEnd(animation);
+            public void onSplashScreenExit(@NonNull SplashScreenViewProvider splashScreenViewProvider) {
+                ObjectAnimator zoomX = ObjectAnimator.ofFloat(splashScreenViewProvider.getIconView(),
+                        View.SCALE_X,
+                        1.0f,
+                        0.0f);
+                zoomX.setInterpolator(new OvershootInterpolator());
+                zoomX.setDuration(250L);
+                zoomX.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
 
-                                splashScreenViewProvider.remove();
-                            }
-                        });
-                        ObjectAnimator zoomY = ObjectAnimator.ofFloat(splashScreenViewProvider.getIconView(),
-                                View.SCALE_Y,
-                                1.0f,
-                                0.0f);
-                        zoomY.setInterpolator(new OvershootInterpolator());
-                        zoomY.setDuration(250L);
-                        zoomY.addListener(new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                super.onAnimationEnd(animation);
-                                splashScreenViewProvider.remove();
-                            }
-                        });
-                        zoomX.start();
-                        zoomY.start();
-
+                        splashScreenViewProvider.remove();
                     }
                 });
-new Handler().postDelayed(new Runnable() {
-    @Override
-    public void run() {
-        splashScreen.setKeepOnScreenCondition( () -> false);
-    }
-},2000);
+                ObjectAnimator zoomY = ObjectAnimator.ofFloat(splashScreenViewProvider.getIconView(),
+                        View.SCALE_Y,
+                        1.0f,
+                        0.0f);
+                zoomY.setInterpolator(new OvershootInterpolator());
+                zoomY.setDuration(250L);
+                zoomY.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        splashScreenViewProvider.remove();
+                    }
+                });
+                zoomX.start();
+                zoomY.start();
+
+            }
+        });
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                splashScreen.setKeepOnScreenCondition(() -> false);
+            }
+        }, 2000);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -82,7 +83,7 @@ new Handler().postDelayed(new Runnable() {
         // app content.
         // Delay the transition to the main activity
 
-        if (new SessionManager(this).isLoggedIn()){
+        if (new SessionManager(this).isLoggedIn()) {
 
             // Initialize TokenManager
             TokenManager tokenManager = new TokenManager(this);
@@ -90,7 +91,6 @@ new Handler().postDelayed(new Runnable() {
             // Check if token is expired and refresh if needed
             tokenManager.refreshTokenIfNeeded();
         }
-
 
 
         // Check if the fragment exists in the FragmentManager
@@ -106,17 +106,17 @@ new Handler().postDelayed(new Runnable() {
                     .commit();
             activeFragment = myFragment;
         }
-        if (categoriesFragment == null){
+        if (categoriesFragment == null) {
             categoriesFragment = new CategoriesFragment();
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, categoriesFragment,"CATE")
+                    .add(R.id.fragment_container, categoriesFragment, "CATE")
                     .hide(categoriesFragment).commit();
         }
 
-        if (profileFragment == null){
+        if (profileFragment == null) {
             profileFragment = new ProfileFragment();
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, profileFragment,"PRO")
+                    .add(R.id.fragment_container, profileFragment, "PRO")
                     .hide(profileFragment).commit();
         }
 
@@ -143,22 +143,23 @@ new Handler().postDelayed(new Runnable() {
                         break;
                 }
                 if (
-                        activeFragment==null
-                ){
+                        activeFragment == null
+                ) {
                     activeFragment = selectedFragment;
                     getSupportFragmentManager().beginTransaction().show(activeFragment).commit();
 
-                    if (activeFragment!=categoriesFragment){
-                    getSupportFragmentManager().beginTransaction().hide(categoriesFragment).commit();}
+                    if (activeFragment != categoriesFragment) {
+                        getSupportFragmentManager().beginTransaction().hide(categoriesFragment).commit();
+                    }
 
-                    if (activeFragment!=myFragment){
-                        getSupportFragmentManager().beginTransaction().hide(myFragment).commit();}
+                    if (activeFragment != myFragment) {
+                        getSupportFragmentManager().beginTransaction().hide(myFragment).commit();
+                    }
 
-                    if (profileFragment!=activeFragment){
+                    if (profileFragment != activeFragment) {
                         getSupportFragmentManager().beginTransaction().hide(profileFragment).commit();
                     }
-                }else
-                if (selectedFragment != activeFragment && selectedFragment != null) {
+                } else if (selectedFragment != activeFragment && selectedFragment != null) {
                     getSupportFragmentManager().beginTransaction()
                             .hide(activeFragment).show(selectedFragment).commit();
                     activeFragment = selectedFragment;

@@ -40,11 +40,12 @@ import in.ebhoot.android.ui.ProductsAdapter;
 public class HomeFragment extends Fragment {
 
     final int[] aj = {0};
-    List<Product> productList ;
+    List<Product> productList;
     boolean Loading = false;
-    String orderBy="date";
-    String order="desc";
+    String orderBy = "date";
+    String order = "desc";
     private ProductsAdapter adapter;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -60,14 +61,14 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         // Inflate the layout for this fragment
         MaterialToolbar materialToolbar = view.findViewById(R.id.topAppBar);
-        SearchView searchView =view.findViewById(R.id.search_view_home);
+        SearchView searchView = view.findViewById(R.id.search_view_home);
         OnBackPressedDispatcher onBackPressedDispatcher = this.requireActivity().getOnBackPressedDispatcher();
         onBackPressedDispatcher.addCallback(new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                if (searchView.isShowing()){
+                if (searchView.isShowing()) {
                     searchView.hide();
-                }else{
+                } else {
                     requireActivity().finish();
                 }
             }
@@ -86,7 +87,7 @@ public class HomeFragment extends Fragment {
 //        menu.findItem(R.id.cart).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 //            @Override
 //            public boolean onMenuItemClick(@NonNull MenuItem item) {
-                // Create an empty list to hold data objects
+        // Create an empty list to hold data objects
 
 
         FloatingActionButton fabScrollToTop = requireActivity().findViewById(R.id.floatab);
@@ -130,9 +131,9 @@ public class HomeFragment extends Fragment {
             }
         });
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_home);
-                recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2)); // Set GridLayoutManager with 2 columns
-                adapter = new ProductsAdapter(requireActivity(),productList); // Create your adapter instance
-                recyclerView.setAdapter(adapter); // Set adapter to RecyclerView
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2)); // Set GridLayoutManager with 2 columns
+        adapter = new ProductsAdapter(requireActivity(), productList); // Create your adapter instance
+        recyclerView.setAdapter(adapter); // Set adapter to RecyclerView
 
 //                return true;
 //            }
@@ -145,8 +146,7 @@ public class HomeFragment extends Fragment {
 //
 
 
-
-                if (newState == RecyclerView.SCROLL_STATE_IDLE){
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
 
                     if (!Loading && !nestedScrollView.canScrollVertically(1)) {
                         // End has been reached, load more items
@@ -161,16 +161,16 @@ public class HomeFragment extends Fragment {
                         }
 
                     }
-                    if (!nestedScrollView.canScrollVertically(-1) && fabScrollToTop.getVisibility() == View.VISIBLE){
+                    if (!nestedScrollView.canScrollVertically(-1) && fabScrollToTop.getVisibility() == View.VISIBLE) {
                         fabScrollToTop.hide();
-                    }else if (fabScrollToTop.getVisibility() != View.VISIBLE && nestedScrollView.canScrollVertically(-1)){
+                    } else if (fabScrollToTop.getVisibility() != View.VISIBLE && nestedScrollView.canScrollVertically(-1)) {
                         fabScrollToTop.show();
                     }
                 }
 //                lastS[0] = nestedScrollView.getScrollY();
             }
         });
-        BottomNavigationView bottomNavigationView= requireActivity().findViewById(R.id.bottom_nav);
+        BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav);
 
         searchView.addTransitionListener(
                 (search, previousState, newState) -> {
@@ -178,9 +178,9 @@ public class HomeFragment extends Fragment {
                         // Handle search view opened.
                         bottomNavigationView.setVisibility(View.INVISIBLE);
                         fabScrollToTop.hide();
-                    }else if (newState == SearchView.TransitionState.HIDING){
+                    } else if (newState == SearchView.TransitionState.HIDING) {
                         coordinatorLayout.setFitsSystemWindows(true);
-                    }else{
+                    } else {
 
                         fabScrollToTop.show();
                         bottomNavigationView.setVisibility(View.VISIBLE);
@@ -192,13 +192,13 @@ public class HomeFragment extends Fragment {
         sort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(requireContext(),v);
-                popupMenu.getMenuInflater().inflate(R.menu.sort_menu,popupMenu.getMenu());
+                PopupMenu popupMenu = new PopupMenu(requireContext(), v);
+                popupMenu.getMenuInflater().inflate(R.menu.sort_menu, popupMenu.getMenu());
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         aj[0] = 0;
-                        switch (item.getTitle().toString()){
+                        switch (item.getTitle().toString()) {
                             case "Date: Newest to oldest":
                                 orderBy = "date";
                                 order = "desc";
@@ -248,59 +248,59 @@ public class HomeFragment extends Fragment {
                         return true;
                     }
                 });
-                        popupMenu.show();
+                popupMenu.show();
             }
         });
 
         return view;
     }
 
-    private void loadMoreItems(View view,String orderBy, String order,int page) {
+    private void loadMoreItems(View view, String orderBy, String order, int page) {
         Loading = true;
-            ProgressBar progressBar = view.findViewById(R.id.progress_sale);
+        ProgressBar progressBar = view.findViewById(R.id.progress_sale);
         progressBar.setVisibility(View.VISIBLE);
 
-            new ProductsManager(getContext(), new ProductsManager.OnTaskCompleted() {
+        new ProductsManager(getContext(), new ProductsManager.OnTaskCompleted() {
 
-                @Override
-                public void onTaskCompleted(JsonArray result) {
-                    Loading = false;
-                    progressBar.setVisibility(View.GONE);
-                    if (result != null) {
+            @Override
+            public void onTaskCompleted(JsonArray result) {
+                Loading = false;
+                progressBar.setVisibility(View.GONE);
+                if (result != null) {
 
-                        try {
-                            // Iterate through the JSON array and convert each JSON object into a data object
-                            for (int i = 0; i < result.size(); i++) {
-                                JsonObject jsonObject = result.get(i).getAsJsonObject();
-                                String imageUrl ="";
+                    try {
+                        // Iterate through the JSON array and convert each JSON object into a data object
+                        for (int i = 0; i < result.size(); i++) {
+                            JsonObject jsonObject = result.get(i).getAsJsonObject();
+                            String imageUrl = "";
 
-                                     imageUrl = jsonObject.getAsJsonArray("images").get(0).getAsJsonObject().get("src").getAsString();
+                            imageUrl = jsonObject.getAsJsonArray("images").get(0).getAsJsonObject().get("src").getAsString();
 
 //                                            int lastIndex = imageUrl.lastIndexOf('.');
 //                                            imageUrl = imageUrl.substring(0, lastIndex) + "-150x150." + imageUrl.substring(lastIndex + 1);
 //                                Log.d("hello",imageUrl);
-                                String categoryName = jsonObject.getAsJsonArray("categories").get(0).getAsJsonObject().get("name").getAsString().replace("&amp;", "&");
-                                String productName = jsonObject.get("name").getAsString();
-                                int id = jsonObject.get("id").getAsInt();
-                                String price = jsonObject.get("price").getAsString();
-                                String rprice = jsonObject.get("regular_price").getAsString();
+                            String categoryName = jsonObject.getAsJsonArray("categories").get(0).getAsJsonObject().get("name").getAsString().replace("&amp;", "&");
+                            String productName = jsonObject.get("name").getAsString();
+                            int id = jsonObject.get("id").getAsInt();
+                            String price = jsonObject.get("price").getAsString();
+                            String rprice = jsonObject.get("regular_price").getAsString();
 //                                Log.d("hello",rprice);
 
-                                // Create a Product object from the parsed JSON data
-                                productList.add(new Product(id,imageUrl, categoryName, productName, price, rprice));
-                                adapter.notifyItemChanged(i*(aj[0] *10));
+                            // Create a Product object from the parsed JSON data
+                            productList.add(new Product(id, imageUrl, categoryName, productName, price, rprice));
+                            adapter.notifyItemChanged(i * (aj[0] * 10));
 
-                            }
-                        } catch (JsonParseException | IndexOutOfBoundsException e) {
-                            Log.e("TAG", "Error parsing JSON"+result+""+result.size(), e);
                         }
+                    } catch (JsonParseException | IndexOutOfBoundsException e) {
+                        Log.e("TAG", "Error parsing JSON" + result + "" + result.size(), e);
                     }
-
-
                 }
 
 
-            }).fetchProductsBy(orderBy,order,page);
+            }
+
+
+        }).fetchProductsBy(orderBy, order, page);
 
     }
 

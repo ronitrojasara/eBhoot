@@ -7,4 +7,4 @@
     android:background="@drawable/item_back"
     android:padding="16dp"
     android:textColor="@color/text"
-    android:textSize="16sp"/>
+    android:textSize="16sp" />

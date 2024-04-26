@@ -1,7 +1,6 @@
 package in.ebhoot.android.ui;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +23,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
     private final List<Product> productList; // Assuming Product is a class representing your data model
 
     Activity activity;
+
     public ProductsAdapter(Activity activity, List<Product> productList) {
         this.activity = activity;
         this.productList = productList;
@@ -39,13 +39,13 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
     @Override
     public ProductsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product, parent, false);
-        return new ProductsViewHolder(view,activity);
+        return new ProductsViewHolder(view, activity);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ProductsViewHolder holder, int position) {
         Product product = productList.get(position);
-        holder.bind(product,activity);
+        holder.bind(product, activity);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
         private final TextView priceTextView;
         private final TextView rpriceTextView;
 
-        public ProductsViewHolder(@NonNull View itemView,Activity activity) {
+        public ProductsViewHolder(@NonNull View itemView, Activity activity) {
             super(itemView);
 
             imageView = itemView.findViewById(R.id.image_view);
@@ -79,40 +79,41 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
             });
 
         }
-        public void bind(Product product,Activity activity) {
+
+        public void bind(Product product, Activity activity) {
 
             // Load image using Glide or any other image loading library
             Glide.with(itemView.getContext())
                     .load(product.getImageUrl()).into(imageView);
             categoryTextView.setText(product.getCategoryName());
             productNameTextView.setText(product.getProductName());
-            String formattedPrice = String.format("%.2f",Float.parseFloat("0"+product.getPrice()) * 1.18);
-            if (formattedPrice.contains(".00")){
+            String formattedPrice = String.format("%.2f", Float.parseFloat("0" + product.getPrice()) * 1.18);
+            if (formattedPrice.contains(".00")) {
                 priceTextView.setText(formattedPrice.substring(0, formattedPrice.length() - 3));
-            }else{
+            } else {
 
                 priceTextView.setText(formattedPrice);
             }
-           if (product.getRegularPrice().equals(product.getPrice())){
+            if (product.getRegularPrice().equals(product.getPrice())) {
                 rpriceTextView.setVisibility(View.GONE);
-            }else {
-               String formatedSale = String.format("%.2f",Float.parseFloat("0"+product.getRegularPrice()) * 1.18);
-               if (formatedSale.contains(".00")){
-                   rpriceTextView.setText(formatedSale.substring(0,formatedSale.length() - 3));
-               }else{
-                   rpriceTextView.setText(formatedSale);
-               }
+            } else {
+                String formatedSale = String.format("%.2f", Float.parseFloat("0" + product.getRegularPrice()) * 1.18);
+                if (formatedSale.contains(".00")) {
+                    rpriceTextView.setText(formatedSale.substring(0, formatedSale.length() - 3));
+                } else {
+                    rpriceTextView.setText(formatedSale);
+                }
             }
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    activity.startActivity(new Intent(activity, ProductPage.class).putExtra("product",product));
+                    activity.startActivity(new Intent(activity, ProductPage.class).putExtra("product", product));
                     activity.overridePendingTransition(android.R.anim.slide_in_left, 0);
                 }
             });
         }
-        }
-
     }
+
+}
 

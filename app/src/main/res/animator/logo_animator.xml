@@ -3,11 +3,11 @@
     android:duration="500"
     android:interpolator="@anim/overshoot_interpolator">
 
-<!--    <propertyValuesHolder-->
-<!--        android:propertyName="rotation"-->
-<!--        android:valueType="floatType"-->
-<!--        android:valueTo="-0.0"-->
-<!--        android:valueFrom="360.0" />-->
+    <!--    <propertyValuesHolder-->
+    <!--        android:propertyName="rotation"-->
+    <!--        android:valueType="floatType"-->
+    <!--        android:valueTo="-0.0"-->
+    <!--        android:valueFrom="360.0" />-->
 
     <propertyValuesHolder
         android:propertyName="scaleX"

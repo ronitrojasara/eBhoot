@@ -1,39 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-    <LinearLayout
-    android:clickable="true"
-        android:layout_margin="4dp"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+<LinearLayout android:clickable="true"
+    android:layout_margin="4dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:focusable="true"
     android:background="@drawable/click_item"
-        android:padding="4dp"
-        android:orientation="vertical">
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="wrap_content"
-            android:id="@+id/image_view_p"
-            style="@style/Widget.Material3.CardView.Filled"
-            android:layout_margin="2dp"
+    android:padding="4dp"
+    android:orientation="vertical">
 
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/image_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                android:src="@drawable/baseline_image_24"
-                android:contentDescription="@string/product_image" />
-        </com.google.android.material.card.MaterialCardView>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:id="@+id/image_view_p"
+        style="@style/Widget.Material3.CardView.Filled"
+        android:layout_margin="2dp"
+
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@drawable/baseline_image_24"
+            android:contentDescription="@string/product_image" />
+    </com.google.android.material.card.MaterialCardView>
+
     <TextView
         android:id="@+id/category_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:lines="1"
         android:textColor="?colorSecondary"
-        android:text="@string/category_name"/>
+        android:text="@string/category_name" />
 
     <TextView
         android:id="@+id/product_name_text_view"
@@ -42,20 +43,22 @@
         android:textStyle="bold"
         android:maxLines="2"
         android:textColor="?colorPrimary"
-        android:text="@string/html"/>
+        android:text="@string/html" />
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/rupee"
-        android:lines="1"
-        android:textColor="?colorOnSurface"
-        android:textStyle="bold"
-        android:textSize="14sp"/>
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rupee"
+            android:lines="1"
+            android:textColor="?colorOnSurface"
+            android:textStyle="bold"
+            android:textSize="14sp" />
+
         <TextView
             android:id="@+id/price_text_view"
             android:layout_width="wrap_content"
@@ -64,7 +67,8 @@
             android:lines="1"
             android:textColor="?colorOnSurface"
             android:textStyle="bold"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
+
         <TextView
             android:id="@+id/price_text_view_2"
             android:layout_marginHorizontal="5dp"
@@ -73,12 +77,11 @@
             android:foreground="@drawable/strikethrough_text"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:text="@string/price"
-            />
+            android:text="@string/price" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/gst"/>
-</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gst" />
     </LinearLayout>
+</LinearLayout>

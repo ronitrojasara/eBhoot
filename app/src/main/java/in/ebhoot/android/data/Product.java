@@ -2,10 +2,8 @@ package in.ebhoot.android.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.SpannableStringBuilder;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 public class Product implements Parcelable {
     int Id;
@@ -16,7 +14,7 @@ public class Product implements Parcelable {
     private String price;
     private final String regularPrice;
 
-    public Product(int Id,String imageUrl, String categoryName, String productName, String price,String regularPrice ) {
+    public Product(int Id, String imageUrl, String categoryName, String productName, String price, String regularPrice) {
         this.Id = Id;
         this.imageUrl = imageUrl;
         this.categoryName = categoryName;

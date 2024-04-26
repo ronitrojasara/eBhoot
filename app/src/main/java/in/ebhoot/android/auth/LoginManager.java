@@ -1,9 +1,6 @@
 package in.ebhoot.android.auth;
 
 import android.content.Context;
-import android.util.Log;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.Response;

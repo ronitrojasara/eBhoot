@@ -3,13 +3,8 @@ package in.ebhoot.android.auth;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.view.View;
-
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Calendar;
-
-import in.ebhoot.android.R;
 
 public class TokenManager {
 
@@ -22,6 +17,7 @@ public class TokenManager {
     private SharedPreferences sharedPreferences;
 
     Context context;
+
     public TokenManager(Context context) {
         this.context = context;
         sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
@@ -44,6 +40,7 @@ public class TokenManager {
         // Check if the token has expired
         return currentTimeMillis >= expirationTime;
     }
+
     public void storeToken(String accessToken, long expirationTime) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(KEY_ACCESS_TOKEN, accessToken);
@@ -57,6 +54,7 @@ public class TokenManager {
         editor.putString(KEY_PASSWORD, password);
         editor.apply();
     }
+
     private String getToken() {
         return sharedPreferences.getString(KEY_ACCESS_TOKEN, null);
     }

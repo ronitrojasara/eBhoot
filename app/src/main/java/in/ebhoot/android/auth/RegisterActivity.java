@@ -2,7 +2,6 @@ package in.ebhoot.android.auth;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -36,7 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 findViewById(R.id.progress_reg).setVisibility(View.GONE);
                 // Handle successful registration response
-                Snackbar.make(findViewById(R.id.reg_btn),"Email Sent! Check your inbox for confirmation.",Snackbar.LENGTH_INDEFINITE).setAction("Ok", new View.OnClickListener() {
+                Snackbar.make(findViewById(R.id.reg_btn), "Email Sent! Check your inbox for confirmation.", Snackbar.LENGTH_INDEFINITE).setAction("Ok", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -50,7 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 // Handle registration error
                 findViewById(R.id.progress_reg).setVisibility(View.GONE);
-                Snackbar.make(findViewById(R.id.reg_btn), Objects.requireNonNull(error.getMessage()),Snackbar.LENGTH_INDEFINITE).setAction("Ok", new View.OnClickListener() {
+                Snackbar.make(findViewById(R.id.reg_btn), Objects.requireNonNull(error.getMessage()), Snackbar.LENGTH_INDEFINITE).setAction("Ok", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -67,14 +66,14 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String email = textInputEditText.getText().toString().trim();
-                if (email.isEmpty()){
+                if (email.isEmpty()) {
                     textInputLayout.setError("Please enter your email");
-                }else{
+                } else {
                     registrationManager.registerUser(textInputEditText.getText().toString().trim(), listener, errorListener);
                     View view = getCurrentFocus();
-                    if (view != null){
+                    if (view != null) {
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                         findViewById(R.id.progress_reg).setVisibility(View.VISIBLE);
                     }
                 }

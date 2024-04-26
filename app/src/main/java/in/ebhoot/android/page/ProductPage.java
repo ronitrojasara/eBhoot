@@ -35,7 +35,7 @@ public class ProductPage extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
-        splashScreen.setKeepOnScreenCondition(()->false);
+        splashScreen.setKeepOnScreenCondition(() -> false);
         setContentView(R.layout.product_layout);
         MaterialButton materialButton = findViewById(R.id.close);
         materialButton.setOnClickListener(new View.OnClickListener() {
@@ -53,7 +53,7 @@ public class ProductPage extends AppCompatActivity {
             }
         });
         Product product = getIntent().getParcelableExtra("product");
-        if (product!=null){
+        if (product != null) {
             id = product.getId();
             imgurl = product.getImageUrl();
             name = product.getProductName();
@@ -64,7 +64,7 @@ public class ProductPage extends AppCompatActivity {
         TextView textView2 = findViewById(R.id.name);
         TextView textView3 = findViewById(R.id.name_top);
         textView2.setText(name);
-        textView3.setText("ID-"+id+" | "+name);
+        textView3.setText("ID-" + id + " | " + name);
 
         TextView textView = findViewById(R.id.price);
         TextView textView0 = findViewById(R.id.sale);
@@ -72,27 +72,27 @@ public class ProductPage extends AppCompatActivity {
 
         Glide.with(this)
                 .load(imgurl).into((ImageView) findViewById(R.id.image));
-        String formattedPrice = String.format("%.2f",Float.parseFloat("0"+price) * 1.18);
-        if (formattedPrice.contains(".00")){
-            textView.setText("₹"+ formattedPrice.substring(0,formattedPrice.length()-3));
-        }else{
-            textView.setText("₹"+ formattedPrice);
+        String formattedPrice = String.format("%.2f", Float.parseFloat("0" + price) * 1.18);
+        if (formattedPrice.contains(".00")) {
+            textView.setText("₹" + formattedPrice.substring(0, formattedPrice.length() - 3));
+        } else {
+            textView.setText("₹" + formattedPrice);
         }
         if (regularPrice.equals(price)) {
             textView0.setVisibility(View.GONE);
-        }else{
-            String formattedSale = String.format("%.2f",Float.parseFloat("0"+regularPrice) * 1.18);
-            if (formattedSale.contains(".00")){
-                textView0.setText("₹"+ formattedSale.substring(0,formattedSale.length()-3));
-            }else{
-                textView0.setText("₹"+ formattedSale);
+        } else {
+            String formattedSale = String.format("%.2f", Float.parseFloat("0" + regularPrice) * 1.18);
+            if (formattedSale.contains(".00")) {
+                textView0.setText("₹" + formattedSale.substring(0, formattedSale.length() - 3));
+            } else {
+                textView0.setText("₹" + formattedSale);
             }
         }
-        String formattedGst = String.format("%.2f",Float.parseFloat("0"+price)* 0.18);
-        if (formattedGst.contains(".00")){
-            textView1.setText(" (₹"+price +" + ₹"+ formattedGst.substring(0,formattedGst.length()-3) +" GST)");
-        }else{
-            textView1.setText(" (₹"+price +" + ₹"+ formattedGst +" GST)");
+        String formattedGst = String.format("%.2f", Float.parseFloat("0" + price) * 0.18);
+        if (formattedGst.contains(".00")) {
+            textView1.setText(" (₹" + price + " + ₹" + formattedGst.substring(0, formattedGst.length() - 3) + " GST)");
+        } else {
+            textView1.setText(" (₹" + price + " + ₹" + formattedGst + " GST)");
         }
 
         new ProductsManager(this, new ProductsManager.OnTaskCompleted() {

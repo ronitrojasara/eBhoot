@@ -44,6 +44,7 @@ public class CategoriesFragment extends Fragment {
     public CategoriesFragment() {
         // Required empty public constructor
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,9 +62,9 @@ public class CategoriesFragment extends Fragment {
         onBackPressedDispatcher.addCallback(new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                if (searchView.isShowing()){
+                if (searchView.isShowing()) {
                     searchView.hide();
-                }else{
+                } else {
                     requireActivity().finish();
                 }
             }
@@ -151,7 +152,7 @@ public class CategoriesFragment extends Fragment {
         new CategoriesManager(requireContext(), new CategoriesManager.OnTaskCompleted() {
             @Override
             public void onTaskCompleted(JsonArray response) {
-                if (response!=null){
+                if (response != null) {
                     Map<Integer, Category> categoryMap = new HashMap<>();
                     // Map to store categories by their IDs
 
@@ -172,7 +173,7 @@ public class CategoriesFragment extends Fragment {
 //                    }
                     }
 
-                    for (Category cate:categoryList) {
+                    for (Category cate : categoryList) {
                         int parentId = cate.getParentId();
                         if (parentId != 0) {
                             Category parentCategory = categoryMap.get(parentId);
@@ -190,9 +191,9 @@ public class CategoriesFragment extends Fragment {
                     categoryList.forEach(new Consumer<Category>() {
                         @Override
                         public void accept(Category category) {
-                            if(category.getParentId()==0){
+                            if (category.getParentId() == 0) {
                                 categories.add(category);
-                                if (category.getSubcategories()!=null){
+                                if (category.getSubcategories() != null) {
                                     category.getSubcategories().forEach(new Consumer<Category>() {
                                         @Override
                                         public void accept(Category category) {
@@ -231,7 +232,7 @@ public class CategoriesFragment extends Fragment {
 //                    });
 
 
-                    categoryAdapter = new CategoryAdapter(requireActivity(),categories);
+                    categoryAdapter = new CategoryAdapter(requireActivity(), categories);
                     recyclerView.setAdapter(categoryAdapter);
 
                 }

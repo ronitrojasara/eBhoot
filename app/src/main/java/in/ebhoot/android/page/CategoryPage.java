@@ -36,36 +36,36 @@ import in.ebhoot.android.ui.ProductsAdapter;
 
 public class CategoryPage extends AppCompatActivity {
     final int[] aj = {0};
-    List<Product> productList ;
+    List<Product> productList;
     boolean Loading = false;
-    String orderBy="date";
+    String orderBy = "date";
     ProductsAdapter productsAdapter;
-    String order="desc";
+    String order = "desc";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
-        splashScreen.setKeepOnScreenCondition(()->false);
+        splashScreen.setKeepOnScreenCondition(() -> false);
         setContentView(R.layout.category_layout);
         Category category = getIntent().getParcelableExtra("category");
         Chip finder_chip = findViewById(R.id.finder);
-        finder_chip.setText("Find within "+category.getName());
+        finder_chip.setText("Find within " + category.getName());
         List<Category> categoryList = new ArrayList<>();
-        if (category.getSubcategories()!=null) {
+        if (category.getSubcategories() != null) {
             category.getSubcategories().forEach(new Consumer<Category>() {
                 @Override
                 public void accept(Category category2) {
                     category2.setParentId(0);
                     categoryList.add(category2);
-                    if (category.getSubcategories()!=null) {
+                    if (category.getSubcategories() != null) {
                         categoryList.addAll(category2.getSubcategories());
                     }
                 }
             });
         }
 
-        CategoryAdapter categoryAdapter = new CategoryAdapter(this,categoryList);
+        CategoryAdapter categoryAdapter = new CategoryAdapter(this, categoryList);
         RecyclerView recyclerView = findViewById(R.id.sub_categories);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(categoryAdapter);
@@ -89,13 +89,13 @@ public class CategoryPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 {
-                    PopupMenu popupMenu = new PopupMenu(v.getContext(),v);
-                    popupMenu.getMenuInflater().inflate(R.menu.sort_menu,popupMenu.getMenu());
+                    PopupMenu popupMenu = new PopupMenu(v.getContext(), v);
+                    popupMenu.getMenuInflater().inflate(R.menu.sort_menu, popupMenu.getMenu());
                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
                             aj[0] = 0;
-                            switch (item.getTitle().toString()){
+                            switch (item.getTitle().toString()) {
                                 case "Date: Newest to oldest":
                                     orderBy = "date";
                                     order = "desc";
@@ -151,9 +151,9 @@ public class CategoryPage extends AppCompatActivity {
             }
         });
         productList = new ArrayList<>();
-        productsAdapter = new ProductsAdapter(this,productList);
+        productsAdapter = new ProductsAdapter(this, productList);
         RecyclerView recyclerView1 = findViewById(R.id.recycler_view_products_cate);
-        recyclerView1.setLayoutManager(new GridLayoutManager(this,2));
+        recyclerView1.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView1.setAdapter(productsAdapter);
         if (NetworkUtils.isNetworkConnected(getApplicationContext())) {
             // Network is available, proceed with Retrofit request
@@ -169,7 +169,7 @@ public class CategoryPage extends AppCompatActivity {
         scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if ( !scrollView.canScrollVertically(1)&& !Loading){
+                if (!scrollView.canScrollVertically(1) && !Loading) {
                     if (NetworkUtils.isNetworkConnected(getApplicationContext())) {
                         // Network is available, proceed with Retrofit request
                         // Make Retrofit API call here
@@ -186,7 +186,8 @@ public class CategoryPage extends AppCompatActivity {
 
 
     }
-    private void loadMoreItems( int category, String orderBy, String order, int page) {
+
+    private void loadMoreItems(int category, String orderBy, String order, int page) {
         Loading = true;
         ProgressBar progressBar = findViewById(R.id.progress_sale);
         progressBar.setVisibility(View.VISIBLE);
@@ -198,14 +199,14 @@ public class CategoryPage extends AppCompatActivity {
                 Loading = false;
                 progressBar.setVisibility(View.GONE);
                 if (result != null) {
-                    if (result.size()<10){
+                    if (result.size() < 10) {
                         Loading = true;
                     }
                     try {
                         // Iterate through the JSON array and convert each JSON object into a data object
                         for (int i = 0; i < result.size(); i++) {
                             JsonObject jsonObject = result.get(i).getAsJsonObject();
-                            String imageUrl ="";
+                            String imageUrl = "";
 
                             imageUrl = jsonObject.getAsJsonArray("images").get(0).getAsJsonObject().get("src").getAsString();
 
@@ -220,12 +221,12 @@ public class CategoryPage extends AppCompatActivity {
 //                                Log.d("hello",rprice);
 
                             // Create a Product object from the parsed JSON data
-                            productList.add(new Product(id,imageUrl, categoryName, productName, price, rprice));
-                            productsAdapter.notifyItemChanged(i*(aj[0] *10));
+                            productList.add(new Product(id, imageUrl, categoryName, productName, price, rprice));
+                            productsAdapter.notifyItemChanged(i * (aj[0] * 10));
 
                         }
                     } catch (JsonParseException | IndexOutOfBoundsException e) {
-                        Log.e("TAG", "Error parsing JSON"+result+""+result.size(), e);
+                        Log.e("TAG", "Error parsing JSON" + result + "" + result.size(), e);
                     }
                 }
 
@@ -233,7 +234,7 @@ public class CategoryPage extends AppCompatActivity {
             }
 
 
-        }).fetchProductsByCategory(category,orderBy,order,page);
+        }).fetchProductsByCategory(category, orderBy, order, page);
 
     }
 

@@ -67,20 +67,22 @@ public class ProductsManager {
         Call<JsonArray> call = service.getProductById(Id);
         fetchProducts(call);
     }
+
     public void fetchOnSaleProducts(int page) {
-        Call<JsonArray> call = service.getSaleProducts(true,page,"publish");
+        Call<JsonArray> call = service.getSaleProducts(true, page, "publish");
         fetchProducts(call);
     }
 
-    public void fetchProductsByCategory(int categoryId,String orderBy,String order,int page) {
-        Call<JsonArray> call = service.getProductsByCategory(categoryId,orderBy,order,page,"publish");
+    public void fetchProductsByCategory(int categoryId, String orderBy, String order, int page) {
+        Call<JsonArray> call = service.getProductsByCategory(categoryId, orderBy, order, page, "publish");
         fetchProducts(call);
     }
 
-    public void fetchProductsBy(String orderBy,String order,int page) {
-        Call<JsonArray> call = service.getProductsBy(orderBy,order,page,"publish");
+    public void fetchProductsBy(String orderBy, String order, int page) {
+        Call<JsonArray> call = service.getProductsBy(orderBy, order, page, "publish");
         fetchProducts(call);
     }
+
     private void fetchProducts(Call<JsonArray> call) {
 
         call.enqueue(new Callback<JsonArray>() {

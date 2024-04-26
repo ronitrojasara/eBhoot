@@ -22,6 +22,7 @@ public class CategoriesManager {
 
     private final CategoriesManager.OnTaskCompleted listener;
     private final WooCommerceAPI service;
+
     public CategoriesManager(Context context, OnTaskCompleted listener) {
         this.context = context;
         this.listener = listener;
@@ -49,18 +50,19 @@ public class CategoriesManager {
         });
         return httpClient.build();
     }
+
     private String getAuthHeader() {
         String credentials = context.getString(R.string.consumer_key_r) + ":" + context.getString(R.string.consumer_secret_r);
         return "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
     }
 
-    public void fetchCategories(){
+    public void fetchCategories() {
         Call<JsonArray> call = service.getCategories(100);
 
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                Log.d("hello",response.message());
+                Log.d("hello", response.message());
                 if (response.isSuccessful()) {
                     listener.onTaskCompleted(response.body());
                 } else {
@@ -74,8 +76,9 @@ public class CategoriesManager {
             }
         });
     }
+
     public interface OnTaskCompleted {
         void onTaskCompleted(JsonArray result);
     }
 
-    }
+}

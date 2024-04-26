@@ -29,8 +29,8 @@ public class LoginActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String user =  username.getText().toString().trim();
-                String pass =  password.getText().toString().trim();
+                String user = username.getText().toString().trim();
+                String pass = password.getText().toString().trim();
 
                 boolean noU = user.isEmpty();
                 boolean noP = pass.isEmpty();
@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (noP) {
                         passf.setError("Please Enter Your Password");
                     }
-                }  else{
+                } else {
                     LoginManager.loginUser(LoginActivity.this, user, pass, new LoginCallback() {
                         @Override
                         public void onLoginSuccess() {
@@ -65,9 +65,9 @@ public class LoginActivity extends AppCompatActivity {
                     });
 
                     View view = getCurrentFocus();
-                    if (view != null){
+                    if (view != null) {
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                         findViewById(R.id.progress).setVisibility(View.VISIBLE);
                     }
                 }
@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
+                if (hasFocus) {
                     userf.setErrorEnabled(false);
                 }
             }
@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
         password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
+                if (hasFocus) {
                     passf.setErrorEnabled(false);
                 }
             }
@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
         materialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
     }
