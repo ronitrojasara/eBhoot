@@ -45,6 +45,7 @@
     <ScrollView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_marginBottom="80dp"
         android:layout_below="@id/top2">
 
         <RelativeLayout
@@ -132,4 +133,46 @@
             </com.google.android.material.card.MaterialCardView>
         </RelativeLayout>
     </ScrollView>
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:paddingHorizontal="30dp"
+        android:gravity="center_vertical"
+        android:background="?colorSurfaceContainer"
+        android:layout_height="80dp">
+      <com.google.android.material.button.MaterialButton
+          android:layout_alignParentStart="true"
+          android:layout_width="wrap_content"
+          android:id="@+id/min"
+          android:enabled="false"
+          app:icon="@drawable/remove"
+          style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+          android:layout_height="wrap_content"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_toEndOf="@id/min"
+            android:id="@+id/q"
+            android:inputType="number"
+            android:maxLength="4"
+            android:text="1"
+            android:layout_height="wrap_content"/>
+        <com.google.android.material.button.MaterialButton
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_toEndOf="@id/q"
+            android:id="@+id/max"
+            app:icon="@drawable/baseline_add_24"
+            style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_toEndOf="@id/max"
+            android:gravity="end"
+            android:layout_height="wrap_content">
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:text="Add to Cart"
+            app:icon="@drawable/baseline_add_shopping_cart_24"
+            android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>

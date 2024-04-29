@@ -1,9 +1,12 @@
 package in.ebhoot.android.page;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -112,6 +115,58 @@ public class ProductPage extends AppCompatActivity {
             }
         }).fetchProduct(id);
 
+        MaterialButton materialButton1 = findViewById(R.id.min);
+        MaterialButton materialButton2 = findViewById(R.id.max);
+        EditText editText = findViewById(R.id.q);
+        final int[] q = {1};
+        materialButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                q[0] = Integer.parseInt("0"+editText.getText().toString());
+                q[0]--;
+                editText.setText(""+q[0]);
+            }
+        });
+        materialButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                q[0] = Integer.parseInt("0"+editText.getText().toString());
+                q[0]++;
+                editText.setText(""+q[0]);
+            }
+
+        });
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (Integer.parseInt("0"+s) == 1){
+                    materialButton1.setEnabled(false);
+                }else {
+                    if (!materialButton1.isEnabled()){
+                        materialButton1.setEnabled(true);
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (Integer.parseInt("0"+s.toString()) <= 0 ){
+                    editText.setText("1");
+                }
+
+                if (!s.toString().equals("" + Integer.parseInt("0" + s.toString()))){
+                    editText.setText(""+Integer.parseInt("0" + s.toString()));
+                }
+            }
+        });
     }
 
 }
