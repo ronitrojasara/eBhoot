@@ -1,5 +1,6 @@
 package in.ebhoot.android.page;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,6 +10,7 @@ import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
@@ -33,6 +35,8 @@ public class ProductPage extends AppCompatActivity {
     String category;
     String price;
     String regularPrice;
+    int stock;
+    boolean s_manage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,13 +102,36 @@ public class ProductPage extends AppCompatActivity {
             textView1.setText(" (₹" + price + " + ₹" + formattedGst + " GST)");
         }
 
-        new ProductsManager(this, new ProductsManager.OnTaskCompleted() {
+        EditText editText = findViewById(R.id.q);
+        MaterialButton materialButton1 = findViewById(R.id.min);
+        MaterialButton materialButton2 = findViewById(R.id.max);
+        new ProductsManager(this, new ProductsManager.OnTaskComplete() {
             @Override
-            public void onTaskCompleted(JsonArray result) {
+            public void onTaskCompleted(JsonObject result) {
+                findViewById(R.id.load).setVisibility(View.GONE);
                 if (result != null) {
                     try {
-                        JsonObject jsonObject = result.get(0).getAsJsonObject();
-                        String htmlString = jsonObject.get("description").getAsString();
+                        String htmlString = result.get("description").getAsString();
+                        TextView stockview = findViewById(R.id.stock);
+                        stockview.setVisibility(View.VISIBLE);
+
+                        if (result.get("stock_status").getAsString().equals("instock")){
+                            s_manage = result.get("manage_stock").getAsBoolean();
+                        if(s_manage){
+                             stock = result.get("stock_quantity").getAsInt();
+                             stockview.setText(""+stock+"\nin stock");
+                        }else {
+                            stockview.setText("Available\nin stock");
+                        }
+                        }else{
+                            stockview.setTextColor(Color.RED);
+                            stockview.setText("0\nsold out");
+
+                            findViewById(R.id.to_cart).setEnabled(false);
+                            editText.setVisibility(View.GONE);
+                            materialButton1.setVisibility(View.GONE);
+                            materialButton2.setVisibility(View.GONE);
+                        }
                         Log.d("hello", htmlString);
                         WebView webView = findViewById(R.id.description);
                         webView.loadData(htmlString, "text/html", "UTF-8");
@@ -115,9 +142,7 @@ public class ProductPage extends AppCompatActivity {
             }
         }).fetchProduct(id);
 
-        MaterialButton materialButton1 = findViewById(R.id.min);
-        MaterialButton materialButton2 = findViewById(R.id.max);
-        EditText editText = findViewById(R.id.q);
+
         final int[] q = {1};
         materialButton1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,6 +179,16 @@ public class ProductPage extends AppCompatActivity {
                         materialButton1.setEnabled(true);
                     }
                 }
+
+                if (s_manage) {
+                    if (Integer.parseInt("0" + s) >= stock) {
+                        materialButton2.setEnabled(false);
+                    } else {
+                        if (!materialButton2.isEnabled()) {
+                            materialButton2.setEnabled(true);
+                        }
+                    }
+                }
             }
 
             @Override
@@ -164,6 +199,11 @@ public class ProductPage extends AppCompatActivity {
 
                 if (!s.toString().equals("" + Integer.parseInt("0" + s.toString()))){
                     editText.setText(""+Integer.parseInt("0" + s.toString()));
+                }
+                if (s_manage){
+                if (Integer.parseInt("0"+s) > stock){
+                    editText.setText(""+stock);
+                }
                 }
             }
         });

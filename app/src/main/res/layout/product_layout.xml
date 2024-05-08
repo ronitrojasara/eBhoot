@@ -133,6 +133,11 @@
             </com.google.android.material.card.MaterialCardView>
         </RelativeLayout>
     </ScrollView>
+    <ProgressBar
+        android:id="@+id/load"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
     <RelativeLayout
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
@@ -140,10 +145,20 @@
         android:gravity="center_vertical"
         android:background="?colorSurfaceContainer"
         android:layout_height="80dp">
+
+        <TextView
+            android:id="@+id/stock"
+            android:layout_width="wrap_content"
+            android:textColor="#198754"
+            android:visibility="gone"
+            android:layout_marginTop="6dp"
+            android:textStyle="bold"
+            android:layout_marginEnd="8dp"
+            android:layout_height="wrap_content"/>
       <com.google.android.material.button.MaterialButton
-          android:layout_alignParentStart="true"
           android:layout_width="wrap_content"
           android:id="@+id/min"
+          android:layout_toEndOf="@id/stock"
           android:enabled="false"
           app:icon="@drawable/remove"
           style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
@@ -168,9 +183,11 @@
             android:layout_toEndOf="@id/max"
             android:gravity="end"
             android:layout_height="wrap_content">
+
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
-            android:text="Add to Cart"
+            android:text="@string/add_to_cart"
+            android:id="@+id/to_cart"
             app:icon="@drawable/baseline_add_shopping_cart_24"
             android:layout_height="wrap_content"/>
         </LinearLayout>
