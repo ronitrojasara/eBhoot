@@ -63,7 +63,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         MaterialToolbar materialToolbar = view.findViewById(R.id.topAppBar);
         SearchView searchView = view.findViewById(R.id.search_view_home);
-        OnBackPressedDispatcher onBackPressedDispatcher = this.requireActivity().getOnBackPressedDispatcher();
+        OnBackPressedDispatcher onBackPressedDispatcher = requireActivity().getOnBackPressedDispatcher();
         onBackPressedDispatcher.addCallback(new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -85,10 +85,6 @@ public class HomeFragment extends Fragment {
                 return true;
             }
         });
-//        menu.findItem(R.id.cart).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(@NonNull MenuItem item) {
-        // Create an empty list to hold data objects
 
 
         FloatingActionButton fabScrollToTop = requireActivity().findViewById(R.id.floatab);
@@ -96,34 +92,19 @@ public class HomeFragment extends Fragment {
 
         productList = new ArrayList<>();
 //        loadMoreItems(view);
-        if (NetworkUtils.isNetworkConnected(getContext())) {
+        if (NetworkUtils.isNetworkConnected(requireContext())) {
             // Network is available, proceed with Retrofit request
             // Make Retrofit API call here
             loadMoreItems(view, orderBy, order, ++aj[0]);
         } else {
             // Network is not available, show a message or take appropriate action
-            NetworkUtils.showNetworkMessage(getContext(), false);
+            NetworkUtils.showNetworkMessage(requireContext(), false);
         }
 
         NestedScrollView nestedScrollView = view.findViewById(R.id.nest);
         final int[] s = {0};
 
-//        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-//            @Override
-//            public void onScrollChange(@NonNull NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-//
-//                // Check if end of the list has been reached
-//
-//                if ((scrollY > oldScrollY ||!v.canScrollVertically(-1)) && fabScrollToTop.getVisibility() == View.VISIBLE) {
-//                    // Scrolling down, hide FAB
-//                    fabScrollToTop.hide();
-//                } else if (scrollY < oldScrollY && fabScrollToTop.getVisibility() != View.VISIBLE ) {
-//                    // Scrolling up, show FAB
-//                    fabScrollToTop.show();
-//                }
-//            }
-//        });
-        // Scroll to top when FAB is clicked
+
         fabScrollToTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,6 +120,7 @@ public class HomeFragment extends Fragment {
 //                return true;
 //            }
 //        });
+        BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -164,14 +146,14 @@ public class HomeFragment extends Fragment {
                     }
                     if (!nestedScrollView.canScrollVertically(-1) && fabScrollToTop.getVisibility() == View.VISIBLE) {
                         fabScrollToTop.hide();
-                    } else if (fabScrollToTop.getVisibility() != View.VISIBLE && nestedScrollView.canScrollVertically(-1)) {
+                    } else if (fabScrollToTop.getVisibility() != View.VISIBLE && nestedScrollView.canScrollVertically(-1) && bottomNavigationView.getSelectedItemId()==bottomNavigationView.getMenu().getItem(0).getItemId()) {
                         fabScrollToTop.show();
                     }
                 }
 //                lastS[0] = nestedScrollView.getScrollY();
             }
         });
-        BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav);
+
 
         searchView.addTransitionListener(
                 (search, previousState, newState) -> {
@@ -277,9 +259,7 @@ public class HomeFragment extends Fragment {
 
                             imageUrl = jsonObject.getAsJsonArray("images").get(0).getAsJsonObject().get("src").getAsString();
 
-//                                            int lastIndex = imageUrl.lastIndexOf('.');
-//                                            imageUrl = imageUrl.substring(0, lastIndex) + "-150x150." + imageUrl.substring(lastIndex + 1);
-//                                Log.d("hello",imageUrl);
+
                             String categoryName = jsonObject.getAsJsonArray("categories").get(0).getAsJsonObject().get("name").getAsString().replace("&amp;", "&");
                             String productName = jsonObject.get("name").getAsString();
                             int id = jsonObject.get("id").getAsInt();

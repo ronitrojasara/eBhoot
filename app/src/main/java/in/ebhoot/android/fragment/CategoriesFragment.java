@@ -165,12 +165,9 @@ public class CategoriesFragment extends Fragment {
                         int count = jsonObject.get("count").getAsInt();
 
                         Category category = new Category(id, name, count, parentId);
-//                        if (count!=0){
-                        // Add the category to the map
                         categoryMap.put(id, category);
 
                         categoryList.add(category);
-//                    }
                     }
 
                     for (Category cate : categoryList) {
@@ -210,26 +207,10 @@ public class CategoriesFragment extends Fragment {
                                     });
                                 }
                             }
-//                            if (PcategoryList.contains(category)){
-//                                categories.add(category);
-//                            }
-//                            if (category.getSubcategories()!=null && category.getParentId()!=0){
-//                                categories.add(category);
-//                            }
-//                            if (category.getSubcategories()!=null){
-//                                categories.addAll(category.getSubcategories());
-//                            }
                         }
 
 
                     });
-//                    categoryMap.forEach(new BiConsumer<Integer, Category>() {
-//
-//                        @Override
-//                        public void accept(Integer integer, Category category) {
-//
-//                        }
-//                    });
 
 
                     categoryAdapter = new CategoryAdapter(requireActivity(), categories);

@@ -210,9 +210,6 @@ public class CategoryPage extends AppCompatActivity {
 
                             imageUrl = jsonObject.getAsJsonArray("images").get(0).getAsJsonObject().get("src").getAsString();
 
-//                                            int lastIndex = imageUrl.lastIndexOf('.');
-//                                            imageUrl = imageUrl.substring(0, lastIndex) + "-150x150." + imageUrl.substring(lastIndex + 1);
-//                                Log.d("hello",imageUrl);
                             String categoryName = jsonObject.getAsJsonArray("categories").get(0).getAsJsonObject().get("name").getAsString().replace("&amp;", "&");
                             String productName = jsonObject.get("name").getAsString();
                             int id = jsonObject.get("id").getAsInt();

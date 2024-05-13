@@ -27,11 +27,6 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
     public ProductsAdapter(Activity activity, List<Product> productList) {
         this.activity = activity;
         this.productList = productList;
-        // Populate dataList with your data here
-        // For example:
-//        productList.add(new Product("https://ebhoot.in/wp-content/uploads/2023/08/Untitled-design-2023-08-11T220323.261-300x300.png", "Category 1", "Product 1", "$10.00"));
-//        productList.add(new Product("https://ebhoot.in/wp-content/uploads/2023/08/Untitled-design-2023-08-11T220323.261-300x300.png", "Category 2", "Product 2", "$20.00"));
-
 
     }
 
