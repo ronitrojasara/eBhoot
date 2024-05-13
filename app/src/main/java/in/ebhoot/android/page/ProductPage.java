@@ -1,16 +1,23 @@
 package in.ebhoot.android.page;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.MemoryFile;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.webkit.WebView;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageSwitcher;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
@@ -19,9 +26,17 @@ import androidx.core.splashscreen.SplashScreen;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.divider.MaterialDivider;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import in.ebhoot.android.R;
 import in.ebhoot.android.data.Product;
@@ -70,15 +85,26 @@ public class ProductPage extends AppCompatActivity {
         }
         TextView textView2 = findViewById(R.id.name);
         TextView textView3 = findViewById(R.id.name_top);
+        TextView textView4 = findViewById(R.id.catte);
         textView2.setText(name);
         textView3.setText("ID-" + id + " | " + name);
-
         TextView textView = findViewById(R.id.price);
         TextView textView0 = findViewById(R.id.sale);
         TextView textView1 = findViewById(R.id.gst);
+        textView4.setText(category);
+        ImageSwitcher imageSwitcher = findViewById(R.id.image);
 
+        // Set factory for the ImageSwitcher to create ImageView instances
+        imageSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public ImageView makeView() {
+                // Create a new ImageView
+                return new ImageView(ProductPage.this);
+            }
+        });
         Glide.with(this)
-                .load(imgurl).into((ImageView) findViewById(R.id.image));
+                .load(imgurl).into((ImageView) imageSwitcher.getCurrentView());
+
         String formattedPrice = String.format("%.2f", Float.parseFloat("0" + price) * 1.18);
         if (formattedPrice.contains(".00")) {
             textView.setText("₹" + formattedPrice.substring(0, formattedPrice.length() - 3));
@@ -111,6 +137,64 @@ public class ProductPage extends AppCompatActivity {
                 findViewById(R.id.load).setVisibility(View.GONE);
                 if (result != null) {
                     try {
+                        final int[] imageIndex = {0};
+                        List<String> stringList = new ArrayList<>();
+                        JsonArray jsonArray = result.getAsJsonArray("images");
+                        for (JsonElement jsonElement:
+                             jsonArray) {
+                            String url = jsonElement.getAsJsonObject().get("src").getAsString();
+                            Glide.with(ProductPage.this)
+                                    .load(url)
+                                    .preload();
+                            stringList.add(url);
+                        }
+                        MaterialButton materialButton5 = findViewById(R.id.count);
+                        materialButton5.setText("1/"+stringList.size());
+                        MaterialButton materialButton3 = findViewById(R.id.left);
+                        MaterialButton materialButton4 = findViewById(R.id.right);
+
+                        materialButton3.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (imageIndex[0] !=0){
+                                    imageIndex[0]--;
+                                    materialButton5.setText((imageIndex[0]+1)+"/"+stringList.size());
+                                    Glide.with(ProductPage.this)
+                                            .load(stringList.get(imageIndex[0])).into((ImageView) imageSwitcher.getNextView());
+
+                                    imageSwitcher.showNext();
+                                }
+                            }
+                        });
+                        materialButton4.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (imageIndex[0]!=stringList.size()-1){
+                                    imageIndex[0]++;
+                                    materialButton5.setText((imageIndex[0]+1)+"/"+stringList.size());
+
+                                    Glide.with(ProductPage.this)
+                                            .load(stringList.get(imageIndex[0])).into((ImageView) imageSwitcher.getNextView());
+
+                                    imageSwitcher.showNext();
+                                }
+                            }
+                        });
+                        JsonArray jsonArray1 = result.get("categories").getAsJsonArray();
+                        String categories = "";
+                        int ic = 1;
+                            for (JsonElement jE2:jsonArray1
+                            ) {
+                                if (ic==1){
+                                    categories = jE2.getAsJsonObject().get("name").getAsString().replace("&amp;","&");
+                                }else{
+                                    categories = categories + ", " + jE2.getAsJsonObject().get("name").getAsString().replace("&amp;","&");
+                                }
+                                ic++;
+                            }
+
+                            textView4.setText(categories);
+
                         String htmlString = result.get("description").getAsString();
                         TextView stockview = findViewById(R.id.stock);
                         stockview.setVisibility(View.VISIBLE);
@@ -132,9 +216,9 @@ public class ProductPage extends AppCompatActivity {
                             materialButton1.setVisibility(View.GONE);
                             materialButton2.setVisibility(View.GONE);
                         }
-                        Log.d("hello", htmlString);
                         WebView webView = findViewById(R.id.description);
-                        webView.loadData(htmlString, "text/html", "UTF-8");
+                        webView.loadDataWithBaseURL(null,htmlString,"text/html", "UTF-8",null);
+
                     } catch (JsonParseException | IndexOutOfBoundsException e) {
                         Log.e("TAG", "Error parsing JSON" + result + "" + result.size(), e);
                     }
